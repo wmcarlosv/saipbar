@@ -4185,6 +4185,12 @@ $(document).ready(function () {
         status = false;
       }
     }
+
+    if(!$("#given_amount_input").val()){
+      alert("El importe dado es Obligatorio!!");
+      return false;
+    }
+
     if (status == true) {
       $("#print_type").val(1);
       let sale_id = $("#last_future_sale_id").val();

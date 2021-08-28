@@ -2258,7 +2258,7 @@ foreach ($notifications as $single_notification){
     
     <script type="text/javascript" src="<?php echo base_url(); ?>assets/POS/js/howler.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/dist/js/feather.min.js"></script>
-    <script type="text/javascript" src="<?php echo base_url(); ?>assets/POS/js/custom1222021v1.js?v=6"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>assets/POS/js/custom1222021v1.js?v=7"></script>
 
 
     <script type="text/javascript">
