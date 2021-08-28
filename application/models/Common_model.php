@@ -219,6 +219,13 @@ class Common_model extends CI_Model {
           ORDER BY 2")->result();
         return $result;
     }
+
+     public function getDataByCompany($company_id) {
+        $result = $this->db->query("SELECT * 
+          FROM tbl_companies 
+          WHERE id = $company_id")->result();
+        return $result;
+    }
     /**
      * get All For Dropdown
      * @access public

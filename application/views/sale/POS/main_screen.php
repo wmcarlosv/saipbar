@@ -1932,6 +1932,26 @@ foreach ($notifications as $single_notification){
                 </div>
 
             </div>
+
+            <div class="fo_2 fix">
+                <div class="half fix floatleft">Propina: </div>
+                <div class="half fix floatleft textright">
+                    <select name="propina" class="form-control" id="propina">
+                        <option value="0">0%</option>
+                        <?php if($company[0]->propina > 0): ?>
+                                <option value="<?=$company[0]->propina?>"><?=$company[0]->propina?>%</option>
+                        <?php endif; ?>
+                        <option value="-1">Personalizada</option>
+                    </select>
+                    <input type="text" name="propina_personalizada" id="propina_personalizada" style="display: none; padding:10px;" class="form-control">
+                </div>
+
+            </div>
+
+
+            <input type="hidden" id="pay_amount_invoice_modal_input_old" />
+
+
             <div class="fo_3 fix">
                 <div class="half fix floatleft textleft"><?php echo lang('paid_amount'); ?></div>
                 <div class="half fix floatleft textright"><?php echo lang('due_amount'); ?></div>
@@ -2238,7 +2258,7 @@ foreach ($notifications as $single_notification){
     
     <script type="text/javascript" src="<?php echo base_url(); ?>assets/POS/js/howler.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/dist/js/feather.min.js"></script>
-    <script type="text/javascript" src="<?php echo base_url(); ?>assets/POS/js/custom1222021v1.js"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>assets/POS/js/custom1222021v1.js?v=6"></script>
 
 
     <script type="text/javascript">
@@ -2263,6 +2283,45 @@ foreach ($notifications as $single_notification){
             $(".single_order_table").hide();
             $("#modal_content_show_tables2 h1").text("Salas");
         });
+
+        $("#propina").change(function(){
+
+            let percen = 0;
+            let total = 0;
+
+            if($(this).val()=='-1'){
+                $("#pay_amount_invoice_input").val($("#pay_amount_invoice_modal_input_old").val());
+                $("#propina").hide();
+                $("#propina_personalizada").show();
+            }
+
+            if(parseFloat($(this).val()) > 0){
+                let amount = $("#pay_amount_invoice_input").val();
+                $("#pay_amount_invoice_modal_input_old").val(amount);
+
+                percen = (parseFloat(amount) * parseFloat($(this).val())) / 100;
+                total = parseFloat(amount) + parseFloat(percen);
+                $("#pay_amount_invoice_input").val(total);
+            }
+
+            if(parseFloat($(this).val()) == 0){
+                $("#pay_amount_invoice_input").val($("#pay_amount_invoice_modal_input_old").val());
+            }
+
+        });
+
+        $("#propina_personalizada").keyup(function(){
+            if(parseFloat($(this).val()) > 0){
+                let amount = parseFloat($("#pay_amount_invoice_input").val());
+                let total = 0;
+                let suma = parseFloat($(this).val());
+
+                total = amount + suma;
+
+                $("#pay_amount_invoice_input").val(total);
+            }
+        });
+
     });
 
     </script>

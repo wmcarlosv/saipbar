@@ -122,6 +122,7 @@ class Sale extends Cl_Controller {
         $data = array();
         $tables = $this->Sale_model->getTablesByOutletId($outlet_id);
         $data['rooms'] = $this->Common_model->getAllByCompanyId($company_id, "tbl_rooms"); 
+        $data['company'] = $this->Common_model->getDataByCompany($company_id);
         $data['tables'] = $this->getTablesDetails($tables);
         $data['categories'] = $this->Sale_model->getFoodMenuCategories($company_id, 'tbl_food_menu_categories');
         $data['customers'] = $this->Common_model->getAllByCompanyIdForDropdown($company_id, 'tbl_customers');
@@ -1304,17 +1305,18 @@ class Sale extends Cl_Controller {
         $given_amount_input = $this->input->post('given_amount_input');
         $change_amount_input = $this->input->post('change_amount_input');
         $payment_method_type = $this->input->post('payment_method_type');
+        $propina = $this->input->post('propina');
         $is_just_cloase = ($payment_method_type=='0')? true:false;
         if($close_order=='true'){
             $this->Sale_model->delete_status_orders_table($sale_id);
             if($is_just_cloase){
-                $order_status = array('order_status' => 3,'given_amount' => $given_amount_input,'change_amount' => $change_amount_input,'close_time'=>date('H:i:s'));
+                $order_status = array('order_status' => 3,'given_amount' => $given_amount_input,'change_amount' => $change_amount_input,'close_time'=>date('H:i:s'), 'propina'=>$propina);
             }else{
-                $order_status = array('paid_amount' =>  $paid_amount,'given_amount' => $given_amount_input,'change_amount' => $change_amount_input, 'due_amount' => $due_amount, 'order_status' => 3,'payment_method_id'=>$payment_method_type,'close_time'=>date('H:i:s'));
+                $order_status = array('paid_amount' =>  $paid_amount,'given_amount' => $given_amount_input,'change_amount' => $change_amount_input, 'due_amount' => $due_amount, 'order_status' => 3,'payment_method_id'=>$payment_method_type,'close_time'=>date('H:i:s'), 'propina'=>$propina);
             }
             
         }else{
-            $order_status = array('paid_amount' => $paid_amount,'given_amount' => $given_amount_input,'change_amount' => $change_amount_input,'due_amount' => $due_amount,'order_status' => 2,'payment_method_id'=>$payment_method_type);
+            $order_status = array('paid_amount' => $paid_amount,'given_amount' => $given_amount_input,'change_amount' => $change_amount_input,'due_amount' => $due_amount,'order_status' => 2,'payment_method_id'=>$payment_method_type, 'propina'=>$propina);
         }
             
         $this->db->where('id', $sale_id);

@@ -118,7 +118,6 @@
 
     <!-- Site wrapper -->
     <div class="wrapper">
-
         <header class="main-header <?=isset($language) && $language=="arabic"?'sidebar2_active"':''?>">
             <!-- Logo -->
             <a href="#" class="logo" <?=isset($language) && $language=="arabic"?'style="display:none"':''?>>

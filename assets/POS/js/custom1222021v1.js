@@ -4167,6 +4167,18 @@ $(document).ready(function () {
   $(document).on("click", "#finalize_order_button", function (e) {
     let due_amount_invoice_input = Number($("#due_amount_invoice_input").val());
     let customer_id = $("#selected_invoice_sale_customer").val();
+    let propinaSelector = $("#propina").val();
+
+    let propina = 0;
+
+    if(propinaSelector == '-1'){
+      propina = $("#propina_personalizada").val();
+    }
+
+    if(parseFloat(propinaSelector) > 0){
+      propina = propinaSelector;
+    }
+
     let status = true;
     if (customer_id == 1) {
       if (due_amount_invoice_input) {
@@ -4191,12 +4203,14 @@ $(document).ready(function () {
           return false;
         }
         $("#last_invoice_id").val(sale_id);
+        
         print_invoice_and_close(
           sale_id,
           payment_method_type,
           invoice_create_type,
           paid_amount,
-          due_amount
+          due_amount,
+          propina
         );
         reset_finalize_modal();
       } else {
@@ -7264,19 +7278,23 @@ function print_invoice_and_close(
   payment_method_type,
   invoice_create_type,
   paid_amount,
-  due_amount
+  due_amount,
+  propina = 0
 ) {
+
+  
   if (invoice_create_type == 1) {
     //if type is 1 then update order status to invoiced order, and update payment method type
     update_order_status_to_invoiced(
       sale_id,
       payment_method_type,
       paid_amount,
-      due_amount
+      due_amount,
+      propina
     );
   } else if (invoice_create_type == 2) {
     //then change order status to close, close time update, payment method type update,
-    close_order(sale_id, payment_method_type, paid_amount, due_amount);
+    close_order(sale_id, payment_method_type, paid_amount, due_amount, propina);
   }
   print_invoice(sale_id);
 }
@@ -7343,10 +7361,13 @@ function update_order_status_to_invoiced(
   sale_id,
   payment_method_type,
   paid_amount,
-  due_amount
+  due_amount,
+  la_propina = 0
 ) {
   let given_amount_input = $("#given_amount_input").val();
   let change_amount_input = $("#change_amount_input").val();
+
+  alert(la_propina);
   $.ajax({
     url: base_url + "Sale/update_order_status_ajax",
     method: "POST",
@@ -7358,6 +7379,7 @@ function update_order_status_to_invoiced(
       payment_method_type: payment_method_type,
       given_amount_input: given_amount_input,
       change_amount_input: change_amount_input,
+      propina:la_propina,
       csrf_irestoraplus: csrf_value_,
     },
     success: function (response) {
@@ -7371,7 +7393,7 @@ function update_order_status_to_invoiced(
   });
 }
 
-function close_order(sale_id, payment_method_type, paid_amount, due_amount) {
+function close_order(sale_id, payment_method_type, paid_amount, due_amount, la_propina=0) {
   let given_amount_input = $("#given_amount_input").val();
   let change_amount_input = $("#change_amount_input").val();
   $.ajax({
@@ -7385,6 +7407,7 @@ function close_order(sale_id, payment_method_type, paid_amount, due_amount) {
       payment_method_type: payment_method_type,
       given_amount_input: given_amount_input,
       change_amount_input: change_amount_input,
+      propina: la_propina,
       csrf_irestoraplus: csrf_value_,
     },
     success: function (response) {
@@ -8329,6 +8352,7 @@ function reset_finalize_modal() {
   $("#pay_amount_invoice_input").val("");
   $("#due_amount_invoice_input").val("");
   $("#finalie_order_payment_method").css("border", "1px solid #B5D6F6");
+  $("#propina").val("0");
   let default_payment_hidden = $("#default_payment_hidden").val();
   $("#finalie_order_payment_method").val(default_payment_hidden).change();
 

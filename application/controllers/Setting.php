@@ -77,6 +77,8 @@ class Setting extends Cl_Controller {
                 $outlet_info['currency_position'] =htmlspecialchars($this->input->post($this->security->xss_clean('currency_position')));
                 $outlet_info['precision'] =htmlspecialchars($this->input->post($this->security->xss_clean('precision')));
 
+                $outlet_info['propina'] =htmlspecialchars($this->input->post($this->security->xss_clean('propina')));
+
                 if(str_rot13($language_manifesto)!="eriutoeri"):
                     $outlet_info['default_waiter'] =htmlspecialchars($this->input->post($this->security->xss_clean('default_waiter')));
                 endif;

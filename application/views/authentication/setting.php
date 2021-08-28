@@ -302,6 +302,13 @@ if ($this->session->flashdata('exception')) {
                                     </label>
                                 </div>
                             </div>
+                            <div class="col-md-4">
+                               <div class="form-group">
+                                    <label for="">Propina</label>
+                                    <input type="number" min="0" max="100" name="propina" value="<?=@$outlet_information->propina?>" placeholder="10%" class="form-control" id="propina" />
+                                </div>
+                            </div>
+                            
                             <?php if (form_error('pre_or_post_payment')) { ?>
                                 <div class="txt_35 alert alert-error">
                                     <p><?php echo form_error('pre_or_post_payment'); ?></p>
@@ -330,6 +337,7 @@ if ($this->session->flashdata('exception')) {
                         <div class="col-md-3">
                             <a target="_blank" class="btn btn-block btn-primary" href="<?php echo base_url(); ?>Update/index"><?php echo lang('software_update'); ?></a>
                         </div>
+                        
                         <br>
                     </div>
 
