@@ -1,5 +1,8 @@
 <?php
 $notification_number = 0;
+
+$designation = $this->session->userdata('designation');
+
 if(count($notifications)>0){
     $notification_number = count($notifications);
 }
@@ -187,6 +190,7 @@ foreach ($customers as $customer){
  * ******************************************************************************************************************
  */
 $waiters_option = '';
+$selected = "";
 
 foreach ($waiters as $waiter){
     $selected = "";
@@ -194,10 +198,15 @@ foreach ($waiters as $waiter){
     if($waiter->id==$default_waiter){
         $selected = "selected";
     }
+
+    if($this->session->userdata('user_id') == $waiter->id){
+        $selected = 'selected="selected"';
+    }
+
     if($waiter->full_name=='Default Waiter'){
         $waiters_option = '<option '.$selected.' value="'.$waiter->id.'">'.$waiter->full_name.'</option>'.$waiters_option;
     }else{
-        $waiters_option .= '<option '.$selected.' value="'.$waiter->id.'">'.$waiter->full_name.'</option>';
+        $waiters_option .= '<option '.$selected.' value="'.$waiter->id.'" '.$selected.'>'.$waiter->full_name.'</option>';
     }
     
 }
@@ -208,7 +217,7 @@ $rooms_modal = '';
 
 foreach($rooms as $room){
     $rooms_modal.="<div class='room-container' data-room-id='".$room->id."'>";
-        $rooms_modal.='<img src="https://media-cdn.tripadvisor.com/media/photo-s/05/d4/b2/f2/the-saddle-room-restaurant.jpg" width="200" height="200" />';
+        $rooms_modal.='<img src="'.base_url().'images/room.png" width="200" height="200" />';
         $rooms_modal.="<p>Sala: (".$room->name.")</p>";
     $rooms_modal.="</div>";
 }
@@ -2321,6 +2330,10 @@ foreach ($notifications as $single_notification){
                 $("#pay_amount_invoice_input").val(total);
             }
         });
+
+        <?php  if($designation == 'waiter'): ?>
+            $("#print_kot, #print_bot, #create_invoice_and_close, #create_bill_and_close").hide();
+        <?php endif; ?>
 
     });
 

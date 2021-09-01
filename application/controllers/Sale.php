@@ -56,11 +56,12 @@ class Sale extends Cl_Controller {
         if($this->Common_model->isOpenRegister($user_id,$outlet_id)==0){
             $this->session->set_flashdata('exception_3', 'Register is not open, enter your opening balance!');
             if($this->uri->segment(2)=='registerDetailCalculationToShowAjax' || $this->uri->segment(2)=='closeRegister'){
-                redirect('Register/openRegister');
+                //Aqui pide registro de caja, si no existe redirecciona
+                //redirect('Register/openRegister');
             }else{
                 $this->session->set_userdata("clicked_controller", $this->uri->segment(1));
                 $this->session->set_userdata("clicked_method", $this->uri->segment(2));
-                redirect('Register/openRegister');
+                //redirect('Register/openRegister');
             }
                
         }

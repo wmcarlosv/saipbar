@@ -113,6 +113,7 @@ class Authentication extends Cl_Controller {
                     $login_session['role'] = $user_information->role;
                     $login_session['company_id'] = $user_information->company_id;
                     $login_session['session_outlets'] = $user_information->outlets;
+                    $login_session['designation'] = $user_information->designation;
 
                     //Company Information
 
